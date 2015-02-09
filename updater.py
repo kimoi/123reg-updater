@@ -112,24 +112,7 @@ if __name__ == '__main__':
     domain = config.get('global', 'domain')
     subdoms = config.get('global', 'subdomains').split(',')
     interval = config.getint('global', 'interval_hours')*3600
-    
-    last_ip = config.get('cache', 'lastip')
 
-    while True:
-        # Check lastip to current
-        external_ip = getExternalIP()
-        if external_ip != last_ip:
-            printMessage('New IP address! Updating...')
-            updateDnsRecords(username, password, domain, subdoms, external_ip)
-            
-            # Update cache
-            last_ip = external_ip
-            config.set('cache', 'lastip', external_ip)
-            with open(CONFIG_PATH, 'w') as h:
-                config.write(h)
-        else:
-            printMessage('IP not changed.')
-            
-        sleep(interval)
-    
+    external_ip = getExternalIP()
+    updateDnsRecords(username, password, domain, subdoms, external_ip)
     
