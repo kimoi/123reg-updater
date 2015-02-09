@@ -42,8 +42,7 @@ def findSubdomain(subdomain, dnsrecords):
             return record
             
 def getExternalIP():
-    "http://checkip.dyndns.org/"
-    site = urlopen("http://checkip.dyndns.org/").read()
+    site = urlopen("http://icanhazip.com/").read()
     grab = re.findall('\d{2,3}.\d{2,3}.\d{2,3}.\d{2,3}', site)
     address = grab[0]
     return address
@@ -111,7 +110,6 @@ if __name__ == '__main__':
     password = config.get('global', 'password')
     domain = config.get('global', 'domain')
     subdoms = config.get('global', 'subdomains').split(',')
-    interval = config.getint('global', 'interval_hours')*3600
 
     external_ip = getExternalIP()
     updateDnsRecords(username, password, domain, subdoms, external_ip)
